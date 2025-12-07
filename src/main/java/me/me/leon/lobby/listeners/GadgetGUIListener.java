@@ -216,12 +216,11 @@ public class GadgetGUIListener implements Listener {
         String title = event.getView().getTitle();
         ItemStack item = event.getCurrentItem();
 
-        if (item == null || !item.hasItemMeta()) return;
-
-        String displayName = item.getItemMeta().getDisplayName();
-
         if (title.equals("§d§l⚡ Gadgets & Cosmetics")) {
             event.setCancelled(true);
+
+            if (item == null || !item.hasItemMeta()) return;
+            String displayName = item.getItemMeta().getDisplayName();
 
             if (displayName.equals("§6§lPartikel Effekte")) {
                 openParticleMenu(player);
@@ -233,10 +232,14 @@ public class GadgetGUIListener implements Listener {
                 openHatMenu(player);
                 player.playSound(player.getLocation(), org.bukkit.Sound.CLICK, 1.0f, 1.0f);
             }
+            return;
         }
 
-        else if (title.equals("§6§l⚡ Partikel Effekte")) {
+        if (title.equals("§6§l⚡ Partikel Effekte")) {
             event.setCancelled(true);
+
+            if (item == null || !item.hasItemMeta()) return;
+            String displayName = item.getItemMeta().getDisplayName();
 
             if (displayName.equals("§c§lZurück")) {
                 openGadgetMenu(player);
@@ -246,7 +249,7 @@ public class GadgetGUIListener implements Listener {
                 player.sendMessage(Main.PREFIX + "§cPartikel-Effekt deaktiviert!");
                 player.playSound(player.getLocation(), org.bukkit.Sound.ITEM_BREAK, 1.0f, 1.0f);
                 player.closeInventory();
-            } else {
+            } else if (!displayName.equals(" ")) {
                 for (String gadget : plugin.getGadgetManager().getAllGadgets()) {
                     ItemStack gadgetItem = plugin.getGadgetManager().getGadgetItem(gadget);
                     if (gadgetItem.getItemMeta().getDisplayName().equals(displayName)) {
@@ -258,10 +261,14 @@ public class GadgetGUIListener implements Listener {
                     }
                 }
             }
+            return;
         }
 
-        else if (title.equals("§a§l⚡ Pets")) {
+        if (title.equals("§a§l⚡ Pets")) {
             event.setCancelled(true);
+
+            if (item == null || !item.hasItemMeta()) return;
+            String displayName = item.getItemMeta().getDisplayName();
 
             if (displayName.equals("§c§lZurück")) {
                 openGadgetMenu(player);
@@ -271,7 +278,7 @@ public class GadgetGUIListener implements Listener {
                 player.sendMessage(Main.PREFIX + "§cPet entfernt!");
                 player.playSound(player.getLocation(), org.bukkit.Sound.ITEM_BREAK, 1.0f, 1.0f);
                 player.closeInventory();
-            } else {
+            } else if (!displayName.equals(" ")) {
                 for (String pet : plugin.getPetManager().getAllPets()) {
                     ItemStack petItem = plugin.getPetManager().getPetItem(pet);
                     if (petItem.getItemMeta().getDisplayName().equals(displayName)) {
@@ -280,10 +287,14 @@ public class GadgetGUIListener implements Listener {
                     }
                 }
             }
+            return;
         }
 
-        else if (title.equals("§b§l⚡ Hüte")) {
+        if (title.equals("§b§l⚡ Hüte")) {
             event.setCancelled(true);
+
+            if (item == null || !item.hasItemMeta()) return;
+            String displayName = item.getItemMeta().getDisplayName();
 
             if (displayName.equals("§c§lZurück")) {
                 openGadgetMenu(player);
@@ -293,7 +304,7 @@ public class GadgetGUIListener implements Listener {
                 player.sendMessage(Main.PREFIX + "§cHut abgenommen!");
                 player.playSound(player.getLocation(), org.bukkit.Sound.ITEM_BREAK, 1.0f, 1.0f);
                 player.closeInventory();
-            } else {
+            } else if (!displayName.equals(" ")) {
                 for (String hat : plugin.getHatManager().getAllHats()) {
                     ItemStack hatItem = plugin.getHatManager().getHatItem(hat);
                     if (hatItem.getItemMeta().getDisplayName().equals(displayName)) {
@@ -302,6 +313,7 @@ public class GadgetGUIListener implements Listener {
                     }
                 }
             }
+            return;
         }
     }
 

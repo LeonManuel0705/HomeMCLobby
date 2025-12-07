@@ -145,7 +145,7 @@ public class LobbyProtectionListener implements Listener {
 
             if (plugin.getHatManager().hasHat(player.getUniqueId())) {
                 if (event.getSlotType() == org.bukkit.event.inventory.InventoryType.SlotType.ARMOR) {
-                    if (event.getRawSlot() == 5) { // Helm-Slot
+                    if (event.getRawSlot() == 5) {
                         event.setCancelled(true);
                         player.sendMessage(Main.PREFIX + "§cDu kannst deinen Hut nicht abnehmen! Nutze das Gadget-Menü.");
                     }
