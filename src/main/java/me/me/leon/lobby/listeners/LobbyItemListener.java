@@ -443,7 +443,7 @@ public class LobbyItemListener implements Listener {
                 break;
             case "§9§lThe§c§lBridge":
                 plugin.sendPlayerToServer(player, "thebridge");
-                player.sendMessage(Main.PREFIX + "§aDu wirst zu §6TheBridge §averbunden...");
+                player.sendMessage(Main.PREFIX + "§aDu wirst zu §9§lThe§c§lBridge§r §averbunden...");
                 break;
             case "§e§lBuildFFA":
                 plugin.sendPlayerToServer(player, "buildffa");
