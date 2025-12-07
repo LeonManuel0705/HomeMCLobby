@@ -167,7 +167,7 @@ public class LobbyItemListener implements Listener {
 
         ItemStack buildbattle = new ItemStack(Material.BRICK);
         ItemMeta buildbattleMeta = buildbattle.getItemMeta();
-        buildbattleMeta.setDisplayName("§d§lBuildBattle");
+        buildbattleMeta.setDisplayName("§b§lBuildBattle");
         buildbattleMeta.setLore(Arrays.asList(
                 "§7",
                 "§7Zeige deine Kreativität und",
