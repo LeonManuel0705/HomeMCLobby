@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="homemclobby:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/homemclobby_jar</output-path>
+    <root id="archive" name="homemclobby.jar">
+      <element id="module-output" name="homemclobby" />
+      <element id="library" level="project" name="mysql-connector-j-8.4" />
+    </root>
+  </artifact>
+</component>

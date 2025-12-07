@@ -1,0 +1,107 @@
+name: LobbySystem
+version: 3.1
+main: me.leon.lobby.Main
+author: 0CPSLeon
+description: BungeeCord Lobby System mit Pets & Hats
+api-version: 1.8
+depend: [Core]
+
+commands:
+  warp:
+    description: Teleportiere dich zu einem Warp
+    usage: /<command> <warpname>
+  setwarp:
+    description: Erstelle einen Warp
+    usage: /<command> <name>
+    permission: lobby.warp.set
+  delwarp:
+    description: Lösche einen Warp
+    usage: /<command> <name>
+    permission: lobby.warp.delete
+  warps:
+    description: Liste alle Warps auf
+    usage: /<command>
+    aliases: [warplist]
+  build:
+    description: Aktiviere den Baumodus
+    permission: lobby.build
+  lobby:
+    description: Zurück zur Lobby
+    usage: /<command>
+    aliases: [hub, l, spawn]
+  petname:
+    description: Benenne dein Pet um
+    usage: /<command> <name>
+    aliases: [pn]
+
+permissions:
+  lobby.warp.set:
+    description: Warps erstellen
+    default: op
+  lobby.warp.delete:
+    description: Warps löschen
+    default: op
+  lobby.build:
+    description: Baumodus nutzen
+    default: op
+  lobby.silentmode:
+    description: Spieler verstecken
+    default: op
+  lobby.coins.admin:
+    description: Coins verwalten
+    default: op
+  lobby.shop:
+    description: Shop nutzen
+    default: true
+  lobby.pets:
+    description: Pets nutzen
+    default: true
+  lobby.hats:
+    description: Hüte nutzen
+    default: true
+  homemc.autonick:
+    description: Automatischer Nickname beim Serverwechsel
+    default: true
+  homemc.chatcolor:
+    description: Bunte Chat-Nachrichten senden
+    default: op
+
+  # Ränge
+  homemc.admin:
+    description: Admin Rang
+    default: op
+    children:
+      lobby.warp.set: true
+      lobby.warp.delete: true
+      lobby.build: true
+      lobby.silentmode: true
+      lobby.coins.admin: true
+      lobby.pets: true
+      lobby.hats: true
+  homemc.developer:
+    description: Developer Rang
+    default: op
+  homemc.mod:
+    description: Moderator Rang
+    default: op
+  homemc.supporter:
+    description: Supporter Rang
+    default: op
+  homemc.builder:
+    description: Builder Rang
+    default: op
+  homemc.yt:
+    description: YouTuber Rang
+    default: op
+  homemc.legend:
+    description: Legend Rang
+    default: false
+  homemc.mvp:
+    description: MVP Rang
+    default: false
+  homemc.vip:
+    description: VIP Rang
+    default: false
+  homemc.player:
+    description: Spieler Rang
+    default: true
