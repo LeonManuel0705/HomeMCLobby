@@ -533,6 +533,10 @@ public class LobbyItemListener implements Listener {
 
         String displayName = item.getItemMeta().getDisplayName();
 
+        if (displayName == null) {
+            return;
+        }
+
         if (displayName.equals("§a§lNicken")) {
             if (plugin.getNickManager() != null) {
                 if (!player.hasPermission("homemc.nick")) {
