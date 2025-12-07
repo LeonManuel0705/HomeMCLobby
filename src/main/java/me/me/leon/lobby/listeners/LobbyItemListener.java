@@ -1,6 +1,5 @@
 package me.leon.lobby.listeners;
 
-
 import me.leon.core.managers.RankManager;
 import me.leon.lobby.Main;
 import org.bukkit.Bukkit;

@@ -1,5 +1,6 @@
 package me.leon.lobby.commands;
 
+import me.leon.core.managers.RankManager;
 import me.leon.lobby.Main;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
@@ -25,7 +26,15 @@ public class BuildCommand implements CommandExecutor {
         Player player = (Player) sender;
 
         if (!player.hasPermission("lobby.build")) {
-            player.sendMessage(Main.PREFIX + "§cKeine Berechtigung!");
+            RankManager.RankData builder = plugin.getRankManager().getRankData("homemc.builder");
+            String builderPrefix = builder.prefix;
+            String builderColor = builder.color;
+            String builderName = builder.displayName;
+            String builderFormatted = builderColor + builderName;
+            player.sendMessage("§8§m=======§r §c§lZugriff verweigert §8§m=======§r");
+            player.sendMessage("§3Um dich zu nicken, benötigst du:");
+            player.sendMessage(" §8• §2Rang: " + builderFormatted);
+            player.sendMessage("§8§m====================================");
             return true;
         }
 
