@@ -141,7 +141,7 @@ public class LobbyItemListener implements Listener {
 
         ItemStack buildffa = new ItemStack(Material.WOOD);
         ItemMeta buildffaMeta = buildffa.getItemMeta();
-        buildffaMeta.setDisplayName("§2§lBuildFFA");
+        buildffaMeta.setDisplayName("§e§lBuildFFA");
         buildffaMeta.setLore(Arrays.asList(
                 "§7",
                 "§7Baue und kämpfe gleichzeitig",
