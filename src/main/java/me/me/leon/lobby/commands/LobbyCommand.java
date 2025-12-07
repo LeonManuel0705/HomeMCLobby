@@ -34,24 +34,8 @@ public class LobbyCommand implements CommandExecutor {
         Location targetLobby;
         String lobbyName;
 
-        if (hasPremiumAccess) {
-            // Premium-Spieler: Wähle Premium-Lobby mit weniger Spielern
-            targetLobby = getLeastPopulatedPremiumLobby();
-            lobbyName = "Premium-Lobby";
-        } else {
-            // Normale Spieler: Wähle normale Lobby mit weniger Spielern
-            targetLobby = getLeastPopulatedNormalLobby();
-            lobbyName = "Lobby";
-        }
-
-        if (targetLobby == null) {
-            player.sendMessage(Main.PREFIX + "§cKeine Lobby verfügbar! Kontaktiere einen Administrator.");
-            return true;
-        }
-
-        // Teleportiere Spieler
-        player.teleport(targetLobby);
-        player.sendMessage(Main.PREFIX + "§aDu wurdest zur §e" + lobbyName + " §ateleportiert!");
+        player.teleport(spawnLocation);
+        player.sendMessage(Main.PREFIX + "§aDu wurdest zum Spawn teleportiert!");
         player.playSound(player.getLocation(), org.bukkit.Sound.ENDERMAN_TELEPORT, 1.0f, 1.0f);
 
         return true;
