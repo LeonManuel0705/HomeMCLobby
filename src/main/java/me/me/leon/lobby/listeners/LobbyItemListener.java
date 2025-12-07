@@ -625,6 +625,10 @@ public class LobbyItemListener implements Listener {
         }
     }
 
+    public void cleanup(UUID uuid) {
+        playerVisibility.remove(uuid);
+    }
+
     private int countPlayersInWorld(String worldName) {
         if (Bukkit.getWorld(worldName) == null) {
             return 0;
