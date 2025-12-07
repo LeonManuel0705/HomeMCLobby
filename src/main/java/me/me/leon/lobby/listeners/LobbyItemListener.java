@@ -470,6 +470,10 @@ public class LobbyItemListener implements Listener {
 
         String displayName = item.getItemMeta().getDisplayName();
 
+        if (displayName == null) {
+            return;
+        }
+
         if (displayName.equals("§a§lLobby-1")) {
             plugin.sendPlayerToServer(player, "lobby-1");
             player.sendMessage(Main.PREFIX + "§aDu wirst zu §eLobby-1 §averbunden...");
