@@ -409,8 +409,7 @@ public class LobbyItemListener implements Listener {
 
         statsMeta.setLore(Arrays.asList(
                 "",
-                "§7Rang§8: " + (plugin.getRankManager() != null ? plugin.getRankManager().getRankColor(player) +
-                        plugin.getRankManager().getRankName(player) : "§7Spieler"),
+                "§7Rang§8: " + rank,
                 "§7Coins§8: §6" + coins,
                 "§7Freunde§8: §e" + friends,
                 ""
