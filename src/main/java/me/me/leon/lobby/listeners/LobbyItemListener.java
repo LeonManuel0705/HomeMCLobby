@@ -404,6 +404,9 @@ public class LobbyItemListener implements Listener {
         int coins = plugin.getCoinManager() != null ? plugin.getCoinManager().getCoins(player.getUniqueId()) : 0;
         int friends = plugin.getFriendManager() != null ? plugin.getFriendManager().getFriends(player.getUniqueId()).size() : 0;
 
+        RankManager rankManager = plugin.getRankManager();
+        String rank = rankManager != null ? rankManager.getRankColor(player) + rankManager.getRankName(player) : "§7Spieler";
+
         statsMeta.setLore(Arrays.asList(
                 "",
                 "§7Rang§8: " + (plugin.getRankManager() != null ? plugin.getRankManager().getRankColor(player) +
