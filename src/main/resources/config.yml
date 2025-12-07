@@ -1,0 +1,60 @@
+# ==========================================
+#         LobbySystem Configuration v2.0
+# ==========================================
+
+# MySQL Database Settings
+mysql:
+  host: "localhost"
+  port: 3306
+  database: "minecraft"
+  username: "minecraft"
+  password: "GHCCommunity1!"
+
+# Server Name
+server-name: "HomeMC"
+
+# Lobby World Name
+lobby-worlds:
+  - "world"
+  - "Lobby-2"
+  - "Lobby-3"
+  - "PremiumLobby-1"
+  - "PremiumLobby-2"
+
+# Void Teleport Y-Level
+void-teleport-y: -50
+
+# BungeeCord Server Names
+servers:
+  bedwars: "BedWars"
+  skywars: "SkyWars"
+  lobby: "Lobby"
+
+# Gadget Settings
+gadgets:
+  enabled: true
+  update-interval: 5 # Ticks
+
+# Nick System
+nick:
+  auto-nick-on-server-change: true
+  auto-unnick-in-lobby: false
+
+# Rocket Mini-Game
+rockets:
+# Beispiel:
+# 1:
+#   world: "world"
+#   x: 100.5
+#   y: 64.0
+#   z: 200.5
+
+# Shop Items & Preise (in Coins)
+shop:
+  gadgets:
+    hearts: 100
+    flames: 150
+    magic: 200
+    snow: 150
+    ender: 250
+    redstone: 200
