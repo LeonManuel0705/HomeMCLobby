@@ -198,7 +198,7 @@ public class LobbyItemListener implements Listener {
     private void openLobbySwitcher(Player player) {
         boolean hasPremiumAccess = player.hasPermission("lobby.premiumlobby");
 
-        Inventory inv = Bukkit.createInventory(null, 54, "§e§l⚡ Lobby Wechseln");
+        Inventory inv = Bukkit.createInventory(null, 54, "§6§l⚡ Lobby Wechseln");
 
         ItemStack glass = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 5);
         ItemMeta glassMeta = glass.getItemMeta();
@@ -218,8 +218,8 @@ public class LobbyItemListener implements Listener {
         }
 
         int lobby1Count = countPlayersInWorld("world");
-        int lobby2Count = countPlayersInWorld("Lobby-2");
-        int lobby3Count = countPlayersInWorld("Lobby-3");
+        int lobby2Count = countPlayersInWorld("world_2");
+        int lobby3Count = countPlayersInWorld("world_3");
 
         ItemStack lobby1 = new ItemStack(Material.EMERALD);
         ItemMeta lobby1Meta = lobby1.getItemMeta();
@@ -423,21 +423,20 @@ public class LobbyItemListener implements Listener {
 
         String displayName = item.getItemMeta().getDisplayName();
 
-        // GameMode Mapping
         switch (displayName) {
             case "§c§lBedWars":
                 plugin.sendPlayerToServer(player, "bedwars");
                 player.sendMessage(Main.PREFIX + "§aDu wirst zu §cBedWars §averbunden...");
                 break;
-            case "§b§lSkyWars":
+            case "§2§lSkyWars":
                 plugin.sendPlayerToServer(player, "skywars");
                 player.sendMessage(Main.PREFIX + "§aDu wirst zu §bSkyWars §averbunden...");
                 break;
-            case "§6§lTheBridge":
+            case "§9§lThe§c§lBridge":
                 plugin.sendPlayerToServer(player, "thebridge");
                 player.sendMessage(Main.PREFIX + "§aDu wirst zu §6TheBridge §averbunden...");
                 break;
-            case "§2§lBuildFFA":
+            case "§e§lBuildFFA":
                 plugin.sendPlayerToServer(player, "buildffa");
                 player.sendMessage(Main.PREFIX + "§aDu wirst zu §2BuildFFA §averbunden...");
                 break;
@@ -445,7 +444,7 @@ public class LobbyItemListener implements Listener {
                 plugin.sendPlayerToServer(player, "hideandseek");
                 player.sendMessage(Main.PREFIX + "§aDu wirst zu §5HideAndSeek §averbunden...");
                 break;
-            case "§d§lBuildBattle":
+            case "§b§lBuildBattle":
                 plugin.sendPlayerToServer(player, "buildbattle");
                 player.sendMessage(Main.PREFIX + "§aDu wirst zu §dBuildBattle §averbunden...");
                 break;
@@ -462,31 +461,29 @@ public class LobbyItemListener implements Listener {
 
         String displayName = item.getItemMeta().getDisplayName();
 
-        // Normale Lobbies
         if (displayName.equals("§a§lLobby-1")) {
             plugin.sendPlayerToServer(player, "lobby-1");
-            player.sendMessage(Main.PREFIX + "§aDu wirst zu §bLobby-1 §averbunden...");
+            player.sendMessage(Main.PREFIX + "§aDu wirst zu §eLobby-1 §averbunden...");
             player.playSound(player.getLocation(), org.bukkit.Sound.ENDERMAN_TELEPORT, 1.0f, 1.0f);
             player.closeInventory();
         } else if (displayName.equals("§a§lLobby-2")) {
             plugin.sendPlayerToServer(player, "lobby-2");
-            player.sendMessage(Main.PREFIX + "§aDu wirst zu §bLobby-2 §averbunden...");
+            player.sendMessage(Main.PREFIX + "§aDu wirst zu §eLobby-2 §averbunden...");
             player.playSound(player.getLocation(), org.bukkit.Sound.ENDERMAN_TELEPORT, 1.0f, 1.0f);
             player.closeInventory();
         } else if (displayName.equals("§a§lLobby-3")) {
             plugin.sendPlayerToServer(player, "lobby-3");
-            player.sendMessage(Main.PREFIX + "§aDu wirst zu §bLobby-3 §averbunden...");
+            player.sendMessage(Main.PREFIX + "§aDu wirst zu §eLobby-3 §averbunden...");
             player.playSound(player.getLocation(), org.bukkit.Sound.ENDERMAN_TELEPORT, 1.0f, 1.0f);
             player.closeInventory();
         }
-        // Premium Lobbies
         else if (displayName.equals("§b§lPremium-Lobby-1")) {
             if (!player.hasPermission("lobby.premiumlobby")) {
                 showPremiumDeniedMessage(player);
                 return;
             }
             plugin.sendPlayerToServer(player, "premiumlobby-1");
-            player.sendMessage(Main.PREFIX + "§aDu wirst zu §6Premium-Lobby-1 §averbunden...");
+            player.sendMessage(Main.PREFIX + "§aDu wirst zu §bPremium-Lobby-1 §averbunden...");
             player.playSound(player.getLocation(), org.bukkit.Sound.ENDERMAN_TELEPORT, 1.0f, 1.5f);
             player.closeInventory();
         } else if (displayName.equals("§b§lPremium-Lobby-2")) {
@@ -495,11 +492,10 @@ public class LobbyItemListener implements Listener {
                 return;
             }
             plugin.sendPlayerToServer(player, "premiumlobby-2");
-            player.sendMessage(Main.PREFIX + "§aDu wirst zu §6Premium-Lobby-2 §averbunden...");
+            player.sendMessage(Main.PREFIX + "§aDu wirst zu §bPremium-Lobby-2 §averbunden...");
             player.playSound(player.getLocation(), org.bukkit.Sound.ENDERMAN_TELEPORT, 1.0f, 1.5f);
             player.closeInventory();
         }
-        // Gesperrte Premium Lobbies
         else if (displayName.contains("§c§l✖ Premium-Lobby")) {
             showPremiumDeniedMessage(player);
         }
