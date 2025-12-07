@@ -58,7 +58,7 @@ public class LobbyItemListener implements Listener {
             GadgetGUIListener gadgetGUI = new GadgetGUIListener(plugin);
             gadgetGUI.openGadgetMenu(player);
         }
-        else if (displayName.equals("§e§lLobby Wechseln")) {
+        else if (displayName.equals("§6§lLobby Wechseln")) {
             event.setCancelled(true);
             openLobbySwitcher(player);
         }
