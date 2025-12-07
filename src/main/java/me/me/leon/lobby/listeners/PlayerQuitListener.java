@@ -23,5 +23,16 @@ public class PlayerQuitListener implements Listener {
         if (plugin.getNickManager().isNicked(player.getUniqueId())) {
             plugin.getNickManager().unnickPlayer(player);
         }
+        if (plugin.getGadgetManager() != null) {
+            plugin.getGadgetManager().setGadget(uuid, null);
+        }
+
+        if (plugin.getPetManager() != null) {
+            plugin.getPetManager().removePet(uuid);
+        }
+
+        if (plugin.getHatManager() != null) {
+            plugin.getHatManager().removeHat(uuid);
+        }
     }
 }
