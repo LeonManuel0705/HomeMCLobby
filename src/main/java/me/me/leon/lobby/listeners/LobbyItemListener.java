@@ -455,7 +455,7 @@ public class LobbyItemListener implements Listener {
                 break;
             case "§b§lBuildBattle":
                 plugin.sendPlayerToServer(player, "buildbattle");
-                player.sendMessage(Main.PREFIX + "§aDu wirst zu §dBuildBattle §averbunden...");
+                player.sendMessage(Main.PREFIX + "§aDu wirst zu §bBuildBattle §averbunden...");
                 break;
         }
 
