@@ -28,11 +28,7 @@ public class LobbyCommand implements CommandExecutor {
 
         Player player = (Player) sender;
 
-        // Prüfen ob Premium-Lobby verfügbar ist
-        boolean hasPremiumAccess = player.hasPermission("lobby.premiumlobby");
-
-        Location targetLobby;
-        String lobbyName;
+        Location spawnLocation = player.getWorld().getSpawnLocation();
 
         player.teleport(spawnLocation);
         player.sendMessage(Main.PREFIX + "§aDu wurdest zum Spawn teleportiert!");
