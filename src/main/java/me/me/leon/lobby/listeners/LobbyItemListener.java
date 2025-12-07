@@ -42,6 +42,10 @@ public class LobbyItemListener implements Listener {
 
         String displayName = item.getItemMeta().getDisplayName();
 
+        if (displayName == null) {
+            return;
+        }
+
         if (displayName.equals("§b§lNavigator")) {
             event.setCancelled(true);
             openGameModeNavigator(player);
