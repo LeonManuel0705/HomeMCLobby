@@ -78,7 +78,7 @@ public class LobbyItemListener implements Listener {
             event.setCancelled(true);
             handleGameModeClick(player, event.getCurrentItem());
         }
-        else if (title.equals("§e§l⚡ Lobby Wechseln")) {
+        else if (title.equals("§6§l⚡ Lobby Wechseln")) {
             event.setCancelled(true);
             handleLobbySwitcherClick(player, event.getCurrentItem());
         }
