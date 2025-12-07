@@ -221,8 +221,8 @@ public class LobbyItemListener implements Listener {
         }
 
         int lobby1Count = countPlayersInWorld("world");
-        int lobby2Count = countPlayersInWorld("world_2");
-        int lobby3Count = countPlayersInWorld("world_3");
+        int lobby2Count = countPlayersInWorld("Lobby-2");
+        int lobby3Count = countPlayersInWorld("Lobby-3");
 
         ItemStack lobby1 = new ItemStack(Material.EMERALD);
         ItemMeta lobby1Meta = lobby1.getItemMeta();
