@@ -128,7 +128,7 @@ public class LobbyItemListener implements Listener {
 
         ItemStack bridge = new ItemStack(Material.IRON_FENCE);
         ItemMeta bridgeMeta = bridge.getItemMeta();
-        bridgeMeta.setDisplayName("§6§lTheBridge");
+        bridgeMeta.setDisplayName("§9§lThe§c§lBridge");
         bridgeMeta.setLore(Arrays.asList(
                 "§7",
                 "§7Überquere die Brücke und",
