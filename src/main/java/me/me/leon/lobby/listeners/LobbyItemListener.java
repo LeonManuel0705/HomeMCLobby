@@ -115,7 +115,7 @@ public class LobbyItemListener implements Listener {
 
         ItemStack skywars = new ItemStack(Material.GRASS);
         ItemMeta skywarsMeta = skywars.getItemMeta();
-        skywarsMeta.setDisplayName("§b§lSkyWars");
+        skywarsMeta.setDisplayName("§2§lSkyWars");
         skywarsMeta.setLore(Arrays.asList(
                 "§7",
                 "§7Kämpfe auf schwebenden Inseln",
