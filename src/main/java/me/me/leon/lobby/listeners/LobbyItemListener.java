@@ -439,7 +439,7 @@ public class LobbyItemListener implements Listener {
                 break;
             case "§2§lSkyWars":
                 plugin.sendPlayerToServer(player, "skywars");
-                player.sendMessage(Main.PREFIX + "§aDu wirst zu §bSkyWars §averbunden...");
+                player.sendMessage(Main.PREFIX + "§aDu wirst zu §2SkyWars §averbunden...");
                 break;
             case "§9§lThe§c§lBridge":
                 plugin.sendPlayerToServer(player, "thebridge");
