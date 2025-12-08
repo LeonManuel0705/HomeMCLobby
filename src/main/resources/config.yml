@@ -16,13 +16,13 @@ server-name: "HomeMC"
 # Lobby World Name
 lobby-worlds:
   - "world"
-  - "Lobby-2"
-  - "Lobby-3"
-  - "PremiumLobby-1"
-  - "PremiumLobby-2"
+  - "Lobby2"
+  - "Lobby3"
+  - "PremiumLobby1"
+  - "PremiumLobby2"
 
 # Void Teleport Y-Level
-void-teleport-y: -50
+void-teleport-y: -30
 
 # BungeeCord Server Names
 servers:

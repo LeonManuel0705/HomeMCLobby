@@ -3,6 +3,7 @@ package me.leon.lobby.listeners;
 import me.leon.core.managers.RankManager;
 import me.leon.lobby.Main;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -220,8 +221,8 @@ public class LobbyItemListener implements Listener {
         }
 
         int lobby1Count = countPlayersInWorld("world");
-        int lobby2Count = countPlayersInWorld("Lobby-2");
-        int lobby3Count = countPlayersInWorld("Lobby-3");
+        int lobby2Count = countPlayersInWorld("Lobby2");
+        int lobby3Count = countPlayersInWorld("Lobby3");
 
         ItemStack lobby1 = new ItemStack(Material.EMERALD);
         ItemMeta lobby1Meta = lobby1.getItemMeta();
@@ -274,8 +275,8 @@ public class LobbyItemListener implements Listener {
         if (hasPremiumAccess) {
             ItemStack premium1 = new ItemStack(Material.DIAMOND);
             ItemMeta premium1Meta = premium1.getItemMeta();
-            int premium1Count = countPlayersInWorld("premiumworld");
-            premium1Meta.setDisplayName("§b§lPremium-Lobby-1");
+            int premium1Count = countPlayersInWorld("Premiumlobby1");
+            premium1Meta.setDisplayName("§b§lPremiumLobby-1");
             premium1Meta.setLore(Arrays.asList(
                     "§7",
                     "§6§lPREMIUM LOBBY",
@@ -288,8 +289,8 @@ public class LobbyItemListener implements Listener {
 
             ItemStack premium2 = new ItemStack(Material.DIAMOND);
             ItemMeta premium2Meta = premium2.getItemMeta();
-            int premium2Count = countPlayersInWorld("premiumworld_2");
-            premium2Meta.setDisplayName("§b§lPremium-Lobby-2");
+            int premium2Count = countPlayersInWorld("Premiumlobby2");
+            premium2Meta.setDisplayName("§b§lPremiumLobby-2");
             premium2Meta.setLore(Arrays.asList(
                     "§7",
                     "§6§lPREMIUM LOBBY",
@@ -302,7 +303,7 @@ public class LobbyItemListener implements Listener {
         } else {
             ItemStack locked1 = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 14);
             ItemMeta locked1Meta = locked1.getItemMeta();
-            locked1Meta.setDisplayName("§c§l✖ Premium-Lobby-1");
+            locked1Meta.setDisplayName("§c§l✖ PremiumLobby-1");
 
             RankManager.RankData vip = plugin.getRankManager().getRankData("homemc.vip");
             String vipFormatted = vip.color + vip.displayName;
@@ -319,7 +320,7 @@ public class LobbyItemListener implements Listener {
 
             ItemStack locked2 = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 14);
             ItemMeta locked2Meta = locked2.getItemMeta();
-            locked2Meta.setDisplayName("§c§l✖ Premium-Lobby-2");
+            locked2Meta.setDisplayName("§c§l✖ PremiumLobby-2");
             locked2Meta.setLore(Arrays.asList(
                     "§7",
                     "§c§lGESPERRT",
@@ -474,31 +475,19 @@ public class LobbyItemListener implements Listener {
         }
 
         if (displayName.equals("§a§lLobby-1")) {
-            plugin.sendPlayerToServer(player, "lobby-1");
-            player.sendMessage(Main.PREFIX + "§aDu wirst zu §eLobby-1 §averbunden...");
-            player.playSound(player.getLocation(), org.bukkit.Sound.ENDERMAN_TELEPORT, 1.0f, 1.0f);
-            player.closeInventory();
+            executeWarpCommand(player, "lobby-1");
         } else if (displayName.equals("§a§lLobby-2")) {
-            plugin.sendPlayerToServer(player, "lobby-2");
-            player.sendMessage(Main.PREFIX + "§aDu wirst zu §eLobby-2 §averbunden...");
-            player.playSound(player.getLocation(), org.bukkit.Sound.ENDERMAN_TELEPORT, 1.0f, 1.0f);
-            player.closeInventory();
+            executeWarpCommand(player, "lobby-2");
         } else if (displayName.equals("§a§lLobby-3")) {
-            plugin.sendPlayerToServer(player, "lobby-3");
-            player.sendMessage(Main.PREFIX + "§aDu wirst zu §eLobby-3 §averbunden...");
-            player.playSound(player.getLocation(), org.bukkit.Sound.ENDERMAN_TELEPORT, 1.0f, 1.0f);
-            player.closeInventory();
+            executeWarpCommand(player, "lobby-3");
         }
-        else if (displayName.equals("§b§lPremium-Lobby-1")) {
+        else if (displayName.equals("§b§lPremiumLobby-1")) {
             if (!player.hasPermission("lobby.premiumlobby")) {
                 showPremiumDeniedMessage(player);
                 return;
             }
-            plugin.sendPlayerToServer(player, "premiumlobby-1");
-            player.sendMessage(Main.PREFIX + "§aDu wirst zu §bPremium-Lobby-1 §averbunden...");
-            player.playSound(player.getLocation(), org.bukkit.Sound.ENDERMAN_TELEPORT, 1.0f, 1.5f);
-            player.closeInventory();
-        } else if (displayName.equals("§b§lPremium-Lobby-2")) {
+            executeWarpCommand(player, "premiumlobby-1");
+        } else if (displayName.equals("§b§lPremiumLobby-2")) {
             if (!player.hasPermission("lobby.premiumlobby")) {
                 showPremiumDeniedMessage(player);
                 return;
@@ -516,10 +505,13 @@ public class LobbyItemListener implements Listener {
         if (warp == null) {
             player.sendMessage(Main.PREFIX + "§cDieser Warp existiert nicht!");
             player.closeInventory();
+            return;
         }
-        else if (displayName.contains("§c§l✖ Premium-Lobby")) {
-            showPremiumDeniedMessage(player);
-        }
+
+        player.teleport(warp);
+        player.sendMessage(Main.PREFIX + "§aDu wurdest zu §e" + warpName + " §ateleportiert!");
+        player.playSound(player.getLocation(), org.bukkit.Sound.ENDERMAN_TELEPORT, 1.0f, 1.0f);
+        player.closeInventory();
     }
 
     private void showPremiumDeniedMessage(Player player) {
