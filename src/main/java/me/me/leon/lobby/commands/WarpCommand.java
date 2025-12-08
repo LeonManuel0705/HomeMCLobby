@@ -42,7 +42,6 @@ public class WarpCommand implements CommandExecutor {
         }
 
         player.teleport(warp);
-        player.sendMessage(Main.PREFIX + "§aDu wurdest zu §e" + warpName + " §ateleportiert!");
         return true;
     }
 }

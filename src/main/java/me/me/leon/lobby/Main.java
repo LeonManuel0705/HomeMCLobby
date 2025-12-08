@@ -24,10 +24,8 @@ public class Main extends JavaPlugin implements PluginMessageListener {
 
     private Core core;
 
-    // Database
     private MySQL mySQL;
 
-    // Manager
     private WarpManager warpManager;
     private GadgetManager gadgetManager;
     private BuildManager buildManager;
@@ -35,8 +33,6 @@ public class Main extends JavaPlugin implements PluginMessageListener {
     private TabManager tabManager;
     private ShopManager shopManager;
     private RocketManager rocketManager;
-
-    // NEUE Manager
     private PetManager petManager;
     private HatManager hatManager;
 
@@ -46,7 +42,6 @@ public class Main extends JavaPlugin implements PluginMessageListener {
     public void onEnable() {
         instance = this;
 
-        // Core Plugin laden - KRITISCH!
         this.core = (Core) Bukkit.getPluginManager().getPlugin("Core");
 
         if (this.core == null) {
@@ -61,14 +56,11 @@ public class Main extends JavaPlugin implements PluginMessageListener {
 
         getLogger().info("§aCore Plugin erfolgreich geladen!");
 
-        // Config erstellen
         saveDefaultConfig();
 
-        // MySQL verbinden
         this.mySQL = new MySQL(this);
         mySQL.connect();
 
-        // Manager initialisieren
         this.warpManager = new WarpManager(this);
         this.gadgetManager = new GadgetManager(this);
         this.buildManager = new BuildManager();
@@ -76,23 +68,19 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         this.tabManager = new TabManager(this);
         this.shopManager = new ShopManager(this);
         this.rocketManager = new RocketManager(this);
-
-        // NEUE Manager
         this.petManager = new PetManager(this);
         this.hatManager = new HatManager(this);
 
-        // BungeeCord Messaging Channel registrieren
         getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", this);
 
-        // Commands registrieren
         getCommand("warp").setExecutor(new WarpCommand(this));
         getCommand("setwarp").setExecutor(new SetWarpCommand(this));
         getCommand("delwarp").setExecutor(new DelWarpCommand(this));
         getCommand("build").setExecutor(new BuildCommand(this));
         getCommand("petname").setExecutor(new PetNameCommand(this));
+        getCommand("lobby").setExecutor(new LobbyCommand(this));
 
-        // Listener registrieren
         Bukkit.getPluginManager().registerEvents(new PlayerJoinListener(this), this);
         Bukkit.getPluginManager().registerEvents(new PlayerQuitListener(this), this);
         Bukkit.getPluginManager().registerEvents(new LobbyProtectionListener(this), this);
@@ -101,16 +89,12 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         Bukkit.getPluginManager().registerEvents(new ChatListener(this), this);
         Bukkit.getPluginManager().registerEvents(new RocketListener(this), this);
         Bukkit.getPluginManager().registerEvents(new GadgetGUIListener(this), this);
-
-        // NEUE Listener
         Bukkit.getPluginManager().registerEvents(petManager, this);
 
-        // Mob Spawning deaktivieren
         for (World world : Bukkit.getWorlds()) {
             if (isLobbyWorld(world.getName())) {
                 world.setSpawnFlags(false, false);
 
-                // Alle existierenden Mobs entfernen
                 for (Entity entity : world.getEntities()) {
                     if (entity instanceof Monster || entity instanceof Animals) {
                         entity.remove();
@@ -149,7 +133,6 @@ public class Main extends JavaPlugin implements PluginMessageListener {
 
     @Override
     public void onDisable() {
-        // Alle Pets entfernen
         if (petManager != null) {
             for (org.bukkit.entity.Player player : Bukkit.getOnlinePlayers()) {
                 petManager.removePet(player.getUniqueId());
@@ -165,7 +148,6 @@ public class Main extends JavaPlugin implements PluginMessageListener {
 
     @Override
     public void onPluginMessageReceived(String channel, org.bukkit.entity.Player player, byte[] message) {
-        // BungeeCord Messages empfangen (für später)
     }
 
     public void sendPlayerToServer(org.bukkit.entity.Player player, String serverName) {
