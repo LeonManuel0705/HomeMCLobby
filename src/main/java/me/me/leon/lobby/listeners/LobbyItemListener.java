@@ -503,9 +503,18 @@ public class LobbyItemListener implements Listener {
                 showPremiumDeniedMessage(player);
                 return;
             }
-            plugin.sendPlayerToServer(player, "premiumlobby-2");
-            player.sendMessage(Main.PREFIX + "§aDu wirst zu §bPremium-Lobby-2 §averbunden...");
-            player.playSound(player.getLocation(), org.bukkit.Sound.ENDERMAN_TELEPORT, 1.0f, 1.5f);
+            executeWarpCommand(player, "premiumlobby-2");
+        }
+        else if (displayName.contains("§c§l✖ PremiumLobby")) {
+            showPremiumDeniedMessage(player);
+        }
+    }
+
+    private void executeWarpCommand(Player player, String warpName) {
+        Location warp = plugin.getWarpManager().getWarp(warpName);
+
+        if (warp == null) {
+            player.sendMessage(Main.PREFIX + "§cDieser Warp existiert nicht!");
             player.closeInventory();
         }
         else if (displayName.contains("§c§l✖ Premium-Lobby")) {
