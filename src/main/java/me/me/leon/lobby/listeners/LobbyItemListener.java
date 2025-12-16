@@ -582,6 +582,17 @@ public class LobbyItemListener implements Listener {
                 plugin.getNickManager().setAutoNick(player.getUniqueId(), !current);
 
                 if (!current) {
+                    if (!player.hasPermission("homemc.autonick")) {
+                        RankManager.RankData yt = plugin.getRankManager().getRankData("homemc.yt");
+                        String ytFormatted = yt.color + yt.displayName;
+
+                        player.sendMessage("§8§m=======§r §c§lZugriff verweigert §8§m=======§r");
+                        player.sendMessage("§3Um AutoNick nutzen zu können, benötigst du:");
+                        player.sendMessage(" §8• §2Rang: " + ytFormatted);
+                        player.sendMessage("§8§m====================================");
+                        player.closeInventory();
+                        return;
+                    }
                     player.sendMessage(Main.PREFIX + "§aAutoNick aktiviert!");
                     player.sendMessage(Main.PREFIX + "§7Du wirst beim Verlassen der Lobby automatisch genickt.");
                     player.playSound(player.getLocation(), org.bukkit.Sound.NOTE_PLING, 1.0f, 2.0f);
@@ -596,6 +607,19 @@ public class LobbyItemListener implements Listener {
     }
 
     private void togglePlayerVisibility(Player player) {
+        if (!player.hasPermission("lobby.silentmode")) {
+            RankManager.RankData vip = plugin.getRankManager().getRankData("homemc.vip");
+            String vipPrefix = vip.prefix;
+            String vipColor = vip.color;
+            String vipName = vip.displayName;
+            String vipFormatted = vipColor + vipName;
+            player.sendMessage("§8§m=======§r §c§lZugriff verweigert §8§m=======§r");
+            player.sendMessage("§3Um andere Spieler zu verstecken, benötigst du:");
+            player.sendMessage(" §8• §2Rang: " + vipFormatted);
+            player.sendMessage("§8§m====================================");
+            player.playSound(player.getLocation(), org.bukkit.Sound.VILLAGER_NO, 1.0f, 1.0f);
+            return;
+        }
         UUID uuid = player.getUniqueId();
         boolean currentlyVisible = playerVisibility.getOrDefault(uuid, true);
 

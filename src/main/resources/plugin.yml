@@ -13,18 +13,15 @@ commands:
   setwarp:
     description: Erstelle einen Warp
     usage: /<command> <name>
-    permission: lobby.warp.set
   delwarp:
     description: Lösche einen Warp
     usage: /<command> <name>
-    permission: lobby.warp.delete
   warps:
     description: Liste alle Warps auf
     usage: /<command>
     aliases: [warplist]
   build:
     description: Aktiviere den Baumodus
-    permission: lobby.build
   lobby:
     description: Zurück zur Lobby
     usage: /<command>
@@ -61,7 +58,7 @@ permissions:
     default: true
   homemc.autonick:
     description: Automatischer Nickname beim Serverwechsel
-    default: true
+    default: op
   homemc.chatcolor:
     description: Bunte Chat-Nachrichten senden
     default: op
