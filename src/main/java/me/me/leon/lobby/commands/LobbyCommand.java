@@ -23,10 +23,16 @@ public class LobbyCommand implements CommandExecutor {
         }
 
         Player player = (Player) sender;
-
         Location spawnLocation = player.getWorld().getSpawnLocation();
 
+        spawnLocation.setX(spawnLocation.getBlockX() + 0.5);
+        spawnLocation.setZ(spawnLocation.getBlockZ() + 0.5);
+
+        spawnLocation.setYaw(90.0f);
+        spawnLocation.setPitch(0.0f);
+
         player.teleport(spawnLocation);
+
         player.sendMessage(Main.PREFIX + "§aDu wurdest zum Spawn teleportiert!");
         player.playSound(player.getLocation(), org.bukkit.Sound.ENDERMAN_TELEPORT, 1.0f, 1.0f);
 
