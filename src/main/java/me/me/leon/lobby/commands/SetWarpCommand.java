@@ -1,5 +1,6 @@
 package me.leon.lobby.commands;
 
+import me.leon.core.managers.RankManager;
 import me.leon.lobby.Main;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -24,7 +25,15 @@ public class SetWarpCommand implements CommandExecutor {
         Player player = (Player) sender;
 
         if (!player.hasPermission("lobby.warp.set")) {
-            player.sendMessage("§cKeine Berechtigung!");
+            RankManager.RankData dev = plugin.getRankManager().getRankData("homemc.developer");
+            String devPrefix = dev.prefix;
+            String devColor = dev.color;
+            String devName = dev.displayName;
+            String devFormatted = devColor + devName;
+            sender.sendMessage("§8§m=======§r §c§lZugriff verweigert §8§m=======§r");
+            sender.sendMessage("§3Um den Befehl zu nutzen, benötigst du:");
+            sender.sendMessage(" §8• §2Rang: " + devFormatted);
+            sender.sendMessage("§8§m====================================");
             return true;
         }
 

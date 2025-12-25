@@ -32,7 +32,7 @@ public class BuildCommand implements CommandExecutor {
             String builderName = builder.displayName;
             String builderFormatted = builderColor + builderName;
             player.sendMessage("§8§m=======§r §c§lZugriff verweigert §8§m=======§r");
-            player.sendMessage("§3Um dich zu nicken, benötigst du:");
+            player.sendMessage("§3Um diesen Befehl auszuführen, benötigst du:");
             player.sendMessage(" §8• §2Rang: " + builderFormatted);
             player.sendMessage("§8§m====================================");
             return true;
@@ -43,12 +43,12 @@ public class BuildCommand implements CommandExecutor {
         if (plugin.getBuildManager().isBuilding(player.getUniqueId())) {
             player.setGameMode(GameMode.CREATIVE);
             player.getInventory().clear();
-            player.sendMessage(Main.PREFIX + "§aBaumodus aktiviert!");
+            player.sendMessage(Main.PREFIX + "§aBau-Modus aktiviert!");
         } else {
             player.setGameMode(GameMode.SURVIVAL);
             player.getInventory().clear();
             me.leon.lobby.utils.LobbyItems.giveLobbyItems(player);
-            player.sendMessage(Main.PREFIX + "§cBaumodus deaktiviert!");
+            player.sendMessage(Main.PREFIX + "§cBau-Modus deaktiviert!");
         }
 
         return true;
