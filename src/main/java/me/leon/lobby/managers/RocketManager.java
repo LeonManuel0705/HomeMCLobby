@@ -58,24 +58,31 @@ public class RocketManager {
 
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
             try {
-                PreparedStatement ps = plugin.getMySQL().getConnection().prepareStatement(
+                boolean canClick = true;
+
+                try (PreparedStatement ps = plugin.getMySQL().getConnection().prepareStatement(
                         "SELECT clicked_at FROM lobby_rocket_clicks WHERE uuid = ?"
-                );
-                ps.setString(1, uuid.toString());
-                ResultSet rs = ps.executeQuery();
+                )) {
+                    ps.setString(1, uuid.toString());
+                    try (ResultSet rs = ps.executeQuery()) {
+                        if (rs.next()) {
+                            long lastClick = rs.getLong("clicked_at");
+                            long now = System.currentTimeMillis();
+                            long cooldown = 24 * 60 * 60 * 1000; // 24 Stunden
 
-                if (rs.next()) {
-                    long lastClick = rs.getLong("clicked_at");
-                    long now = System.currentTimeMillis();
-                    long cooldown = 24 * 60 * 60 * 1000; // 24 Stunden
-
-                    if (now - lastClick < cooldown) {
-                        long remaining = (cooldown - (now - lastClick)) / 1000 / 60 / 60;
-                        plugin.getServer().getScheduler().runTask(plugin, () -> {
-                            player.sendMessage(Main.PREFIX + "§cDu kannst die Rakete erst in §e" + remaining + " Stunden §cwieder nutzen!");
-                        });
-                        return;
+                            if (now - lastClick < cooldown) {
+                                long remaining = (cooldown - (now - lastClick)) / 1000 / 60 / 60;
+                                plugin.getServer().getScheduler().runTask(plugin, () -> {
+                                    player.sendMessage(Main.PREFIX + "§cDu kannst die Rakete erst in §e" + remaining + " Stunden §cwieder nutzen!");
+                                });
+                                canClick = false;
+                            }
+                        }
                     }
+                }
+
+                if (!canClick) {
+                    return;
                 }
 
                 plugin.getServer().getScheduler().runTask(plugin, () -> {
@@ -84,15 +91,16 @@ public class RocketManager {
                     player.sendMessage(Main.PREFIX + "§a+2 Coins! §7(Gesamt: §e" + plugin.getCoinManager().getCoins(uuid) + "§7)");
                 });
 
-                ps = plugin.getMySQL().getConnection().prepareStatement(
+                long now = System.currentTimeMillis();
+                try (PreparedStatement ps = plugin.getMySQL().getConnection().prepareStatement(
                         "INSERT INTO lobby_rocket_clicks (uuid, clicked_at) VALUES (?, ?) " +
                                 "ON DUPLICATE KEY UPDATE clicked_at = ?"
-                );
-                long now = System.currentTimeMillis();
-                ps.setString(1, uuid.toString());
-                ps.setLong(2, now);
-                ps.setLong(3, now);
-                ps.executeUpdate();
+                )) {
+                    ps.setString(1, uuid.toString());
+                    ps.setLong(2, now);
+                    ps.setLong(3, now);
+                    ps.executeUpdate();
+                }
 
             } catch (Exception e) {
                 e.printStackTrace();

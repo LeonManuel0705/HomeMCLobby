@@ -47,11 +47,11 @@ public class ScoreboardManager {
 
         board.getEntries().forEach(board::resetScores);
 
-        String rankColor = plugin.getRankManager().getRankColor(player);
+        String rankColor = plugin.getRankManager() != null ? plugin.getRankManager().getRankColor(player) : "§7";
         String playerName = player.getName();
-        int coins = plugin.getCoinManager().getCoins(player.getUniqueId());
+        int coins = plugin.getCoinManager() != null ? plugin.getCoinManager().getCoins(player.getUniqueId()) : 0;
         String playTime = formatPlayTime(getPlayTime(player));
-        ClanManager.Clan clan = plugin.getClanManager().getPlayerClan(player.getUniqueId());
+        ClanManager.Clan clan = plugin.getClanManager() != null ? plugin.getClanManager().getPlayerClan(player.getUniqueId()) : null;
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, d MMM yyyy", Locale.ENGLISH);
         String formattedDate = dateFormat.format(new Date());
@@ -64,8 +64,8 @@ public class ScoreboardManager {
             setScore(obj, " ", line--);
 
             setScore(obj, "§6§lAbout", line--);
-            setScore(obj, "  §eName: " + plugin.getRankManager().getRankColor(player) + playerName, line--);
-            setScore(obj, "  §eCoins: §b" + plugin.getCoinManager().getCoins(player.getUniqueId()), line--);
+            setScore(obj, "  §eName: " + rankColor + playerName, line--);
+            setScore(obj, "  §eCoins: §b" + coins, line--);
             setScore(obj, "  §eSpielzeit: §b" + playTime, line--);
 
             if (clan != null) {
@@ -110,24 +110,24 @@ public class ScoreboardManager {
     }
 
     private long getPlayTime(Player player) {
-        try {
-            java.sql.PreparedStatement ps = plugin.getCore().getMySQL().getConnection().prepareStatement(
-                    "SELECT first_join FROM player_data WHERE uuid = ?"
-            );
-            ps.setString(1, player.getUniqueId().toString());
-            java.sql.ResultSet rs = ps.executeQuery();
+        if (plugin.getCore() == null || plugin.getCore().getMySQL() == null) {
+            return player.getPlayerTime();
+        }
 
-            if (rs.next()) {
-                long firstJoin = rs.getLong("first_join");
-                rs.close();
-                ps.close();
-                if (firstJoin > 0) {
-                    return System.currentTimeMillis() - firstJoin;
+        try (java.sql.PreparedStatement ps = plugin.getCore().getMySQL().getConnection().prepareStatement(
+                "SELECT first_join FROM player_data WHERE uuid = ?"
+        )) {
+            ps.setString(1, player.getUniqueId().toString());
+            try (java.sql.ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    long firstJoin = rs.getLong("first_join");
+                    if (firstJoin > 0) {
+                        return System.currentTimeMillis() - firstJoin;
+                    }
                 }
             }
-            rs.close();
-            ps.close();
         } catch (Exception e) {
+            plugin.getLogger().warning("Fehler beim Laden der Spielzeit: " + e.getMessage());
         }
         return player.getPlayerTime();
     }

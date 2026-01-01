@@ -305,8 +305,8 @@ public class LobbyItemListener implements Listener {
             ItemMeta locked1Meta = locked1.getItemMeta();
             locked1Meta.setDisplayName("§c§l✖ PremiumLobby-1");
 
-            RankManager.RankData vip = plugin.getRankManager().getRankData("homemc.vip");
-            String vipFormatted = vip.color + vip.displayName;
+            RankManager.RankData vip = plugin.getRankManager() != null ? plugin.getRankManager().getRankData("homemc.vip") : null;
+            String vipFormatted = vip != null ? vip.color + vip.displayName : "§6VIP";
 
             locked1Meta.setLore(Arrays.asList(
                     "§7",
@@ -515,8 +515,8 @@ public class LobbyItemListener implements Listener {
     }
 
     private void showPremiumDeniedMessage(Player player) {
-        RankManager.RankData vip = plugin.getRankManager().getRankData("homemc.vip");
-        String vipFormatted = vip.color + vip.displayName;
+        RankManager.RankData vip = plugin.getRankManager() != null ? plugin.getRankManager().getRankData("homemc.vip") : null;
+        String vipFormatted = vip != null ? vip.color + vip.displayName : "§6VIP";
 
         player.sendMessage("§8§m=======§r §c§lZugriff verweigert §8§m=======§r");
         player.sendMessage("§3Um Premium-Lobbies betreten zu können, benötigst du:");
@@ -540,11 +540,8 @@ public class LobbyItemListener implements Listener {
         if (displayName.equals("§a§lNicken")) {
             if (plugin.getNickManager() != null) {
                 if (!player.hasPermission("homemc.nick")) {
-                    RankManager.RankData legend = plugin.getRankManager().getRankData("homemc.legend");
-                    String legendPrefix = legend.prefix;
-                    String legendColor = legend.color;
-                    String legendName = legend.displayName;
-                    String legendFormatted = legendColor + legendName;
+                    RankManager.RankData legend = plugin.getRankManager() != null ? plugin.getRankManager().getRankData("homemc.legend") : null;
+                    String legendFormatted = legend != null ? legend.color + legend.displayName : "§dLegend";
                     player.sendMessage("§8§m=======§r §c§lZugriff verweigert §8§m=======§r");
                     player.sendMessage("§3Um dich zu nicken, benötigst du:");
                     player.sendMessage(" §8• §2Rang: " + legendFormatted);
@@ -566,8 +563,8 @@ public class LobbyItemListener implements Listener {
         }
         else if (displayName.equals("§6§lAutoNick")) {
             if (!player.hasPermission("homemc.autonick")) {
-                RankManager.RankData yt = plugin.getRankManager().getRankData("homemc.yt");
-                String ytFormatted = yt.color + yt.displayName;
+                RankManager.RankData yt = plugin.getRankManager() != null ? plugin.getRankManager().getRankData("homemc.yt") : null;
+                String ytFormatted = yt != null ? yt.color + yt.displayName : "§5YouTuber";
 
                 player.sendMessage("§8§m=======§r §c§lZugriff verweigert §8§m=======§r");
                 player.sendMessage("§3Um AutoNick nutzen zu können, benötigst du:");
@@ -582,17 +579,6 @@ public class LobbyItemListener implements Listener {
                 plugin.getNickManager().setAutoNick(player.getUniqueId(), !current);
 
                 if (!current) {
-                    if (!player.hasPermission("homemc.autonick")) {
-                        RankManager.RankData yt = plugin.getRankManager().getRankData("homemc.yt");
-                        String ytFormatted = yt.color + yt.displayName;
-
-                        player.sendMessage("§8§m=======§r §c§lZugriff verweigert §8§m=======§r");
-                        player.sendMessage("§3Um AutoNick nutzen zu können, benötigst du:");
-                        player.sendMessage(" §8• §2Rang: " + ytFormatted);
-                        player.sendMessage("§8§m====================================");
-                        player.closeInventory();
-                        return;
-                    }
                     player.sendMessage(Main.PREFIX + "§aAutoNick aktiviert!");
                     player.sendMessage(Main.PREFIX + "§7Du wirst beim Verlassen der Lobby automatisch genickt.");
                     player.playSound(player.getLocation(), org.bukkit.Sound.NOTE_PLING, 1.0f, 2.0f);
@@ -608,11 +594,8 @@ public class LobbyItemListener implements Listener {
 
     private void togglePlayerVisibility(Player player) {
         if (!player.hasPermission("lobby.silentmode")) {
-            RankManager.RankData vip = plugin.getRankManager().getRankData("homemc.vip");
-            String vipPrefix = vip.prefix;
-            String vipColor = vip.color;
-            String vipName = vip.displayName;
-            String vipFormatted = vipColor + vipName;
+            RankManager.RankData vip = plugin.getRankManager() != null ? plugin.getRankManager().getRankData("homemc.vip") : null;
+            String vipFormatted = vip != null ? vip.color + vip.displayName : "§6VIP";
             player.sendMessage("§8§m=======§r §c§lZugriff verweigert §8§m=======§r");
             player.sendMessage("§3Um andere Spieler zu verstecken, benötigst du:");
             player.sendMessage(" §8• §2Rang: " + vipFormatted);
@@ -654,9 +637,10 @@ public class LobbyItemListener implements Listener {
     }
 
     private int countPlayersInWorld(String worldName) {
-        if (Bukkit.getWorld(worldName) == null) {
+        org.bukkit.World world = Bukkit.getWorld(worldName);
+        if (world == null) {
             return 0;
         }
-        return Bukkit.getWorld(worldName).getPlayers().size();
+        return world.getPlayers().size();
     }
 }

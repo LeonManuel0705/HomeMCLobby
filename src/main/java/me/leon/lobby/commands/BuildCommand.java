@@ -26,13 +26,10 @@ public class BuildCommand implements CommandExecutor {
         Player player = (Player) sender;
 
         if (!player.hasPermission("lobby.build")) {
-            RankManager.RankData builder = plugin.getRankManager().getRankData("homemc.builder");
-            String builderPrefix = builder.prefix;
-            String builderColor = builder.color;
-            String builderName = builder.displayName;
-            String builderFormatted = builderColor + builderName;
+            RankManager.RankData builder = plugin.getRankManager() != null ? plugin.getRankManager().getRankData("homemc.builder") : null;
+            String builderFormatted = builder != null ? builder.color + builder.displayName : "§eBuilder";
             player.sendMessage("§8§m=======§r §c§lZugriff verweigert §8§m=======§r");
-            player.sendMessage("§3Um diesen Befehl auszuführen, benötigst du:");
+            player.sendMessage("§3Um den Baumodus zu nutzen, benötigst du:");
             player.sendMessage(" §8• §2Rang: " + builderFormatted);
             player.sendMessage("§8§m====================================");
             return true;
