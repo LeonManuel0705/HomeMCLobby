@@ -82,7 +82,7 @@
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
             <version>8.0.33</version>
-            <scope>provided</scope>  <!-- GEÄNDERT von compile! -->
+            <scope>provided</scope>
         </dependency>
 
         <!-- Spigot API -->
@@ -90,6 +90,28 @@
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
             <version>1.8.8-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>net.md-5</groupId>
+                    <artifactId>bungeecord-chat</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- BungeeCord Chat API - stable release -->
+        <dependency>
+            <groupId>net.md-5</groupId>
+            <artifactId>bungeecord-chat</artifactId>
+            <version>1.16-R0.4</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- HomeMCCore Plugin -->
+        <dependency>
+            <groupId>me.leon</groupId>
+            <artifactId>HomeMCCore</artifactId>
+            <version>1.0</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

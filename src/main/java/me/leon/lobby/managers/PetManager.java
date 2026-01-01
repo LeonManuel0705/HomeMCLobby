@@ -406,11 +406,8 @@ public class PetManager implements Listener {
                 if (player.hasPermission("homemc.chatcolor")) {
                     player.sendMessage(Main.PREFIX + "§7Du kannst Farbcodes in deinem Petnamen verwenden!");
                 } else {
-                    RankManager.RankData vip = plugin.getRankManager().getRankData("homemc.vip");
-                    String vipPrefix = vip.prefix;
-                    String vipColor = vip.color;
-                    String vipName = vip.displayName;
-                    String vipFormatted = vipColor + vipName;
+                    RankManager.RankData vip = plugin.getRankManager() != null ? plugin.getRankManager().getRankData("homemc.vip") : null;
+                    String vipFormatted = vip != null ? vip.color + vip.displayName : "§6VIP";
                     player.sendMessage(Main.PREFIX + "§7Um Farbcodes im Namen zu verwenden, benötigst du: §2Rang: " + vipFormatted);
                 }
             }

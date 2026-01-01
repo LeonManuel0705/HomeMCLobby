@@ -5,62 +5,70 @@ import me.leon.lobby.Main;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class ShopManager {
 
     private final Main plugin;
-    private Map<UUID, Set<String>> purchasedItems;
+    private final Map<UUID, Set<String>> purchasedItems;
+    private final Set<UUID> loadingPlayers;
 
     public ShopManager(Main plugin) {
         this.plugin = plugin;
-        this.purchasedItems = new HashMap<>();
+        this.purchasedItems = new ConcurrentHashMap<>();
+        this.loadingPlayers = ConcurrentHashMap.newKeySet();
     }
 
     public void loadPurchases(UUID uuid) {
+        loadingPlayers.add(uuid);
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
             try {
-                Set<String> items = new HashSet<>();
+                Set<String> items = ConcurrentHashMap.newKeySet();
 
-                PreparedStatement ps = plugin.getMySQL().getConnection().prepareStatement(
+                try (PreparedStatement ps = plugin.getMySQL().getConnection().prepareStatement(
                         "SELECT item_id FROM shop_purchases WHERE uuid = ?"
-                );
-                ps.setString(1, uuid.toString());
-                ResultSet rs = ps.executeQuery();
-
-                while (rs.next()) {
-                    items.add(rs.getString("item_id"));
+                )) {
+                    ps.setString(1, uuid.toString());
+                    try (ResultSet rs = ps.executeQuery()) {
+                        while (rs.next()) {
+                            items.add(rs.getString("item_id"));
+                        }
+                    }
                 }
 
                 purchasedItems.put(uuid, items);
 
             } catch (Exception e) {
                 plugin.getLogger().warning("Fehler beim Laden der Shop-Käufe für " + uuid + ": " + e.getMessage());
-                purchasedItems.put(uuid, new HashSet<>());
+                purchasedItems.put(uuid, ConcurrentHashMap.newKeySet());
+            } finally {
+                loadingPlayers.remove(uuid);
             }
         });
     }
 
+    public boolean isLoading(UUID uuid) {
+        return loadingPlayers.contains(uuid);
+    }
+
     public boolean hasPurchased(UUID uuid, String itemId) {
-        return purchasedItems.getOrDefault(uuid, new HashSet<>()).contains(itemId);
+        Set<String> items = purchasedItems.get(uuid);
+        return items != null && items.contains(itemId);
     }
 
     public void purchase(UUID uuid, String itemId, int cost) {
-        if (!plugin.getCoinManager().hasCoins(uuid, cost)) {
+        if (plugin.getCoinManager() == null || !plugin.getCoinManager().hasCoins(uuid, cost)) {
             return;
         }
 
         plugin.getCoinManager().removeCoins(uuid, cost);
 
-        if (!purchasedItems.containsKey(uuid)) {
-            purchasedItems.put(uuid, new HashSet<>());
-        }
-        purchasedItems.get(uuid).add(itemId);
+        purchasedItems.computeIfAbsent(uuid, k -> ConcurrentHashMap.newKeySet()).add(itemId);
 
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
-            try {
-                PreparedStatement ps = plugin.getMySQL().getConnection().prepareStatement(
-                        "INSERT INTO shop_purchases (uuid, item_id, purchased_at) VALUES (?, ?, ?)"
-                );
+            try (PreparedStatement ps = plugin.getMySQL().getConnection().prepareStatement(
+                    "INSERT INTO shop_purchases (uuid, item_id, purchased_at) VALUES (?, ?, ?)"
+            )) {
                 ps.setString(1, uuid.toString());
                 ps.setString(2, itemId);
                 ps.setLong(3, System.currentTimeMillis());
@@ -69,6 +77,11 @@ public class ShopManager {
                 plugin.getLogger().severe("Fehler beim Speichern des Shop-Kaufs: " + e.getMessage());
             }
         });
+    }
+
+    public void unloadPlayer(UUID uuid) {
+        purchasedItems.remove(uuid);
+        loadingPlayers.remove(uuid);
     }
 
     public Map<String, Integer> getShopItems() {

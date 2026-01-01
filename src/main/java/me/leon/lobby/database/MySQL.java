@@ -146,7 +146,7 @@ public class MySQL {
         }
 
         try {
-            PreparedStatement ps = connection.prepareStatement(
+            try (PreparedStatement ps = connection.prepareStatement(
                     "CREATE TABLE IF NOT EXISTS warps (" +
                             "id INT AUTO_INCREMENT PRIMARY KEY, " +
                             "server_name VARCHAR(50), " +
@@ -162,11 +162,11 @@ public class MySQL {
                             "UNIQUE KEY unique_warp (server_name, warp_name), " +
                             "INDEX idx_server (server_name)" +
                             ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4"
-            );
-            ps.executeUpdate();
-            ps.close();
+            )) {
+                ps.executeUpdate();
+            }
 
-            ps = connection.prepareStatement(
+            try (PreparedStatement ps = connection.prepareStatement(
                     "CREATE TABLE IF NOT EXISTS shop_purchases (" +
                             "uuid VARCHAR(36), " +
                             "item_id VARCHAR(50), " +
@@ -174,22 +174,22 @@ public class MySQL {
                             "PRIMARY KEY (uuid, item_id), " +
                             "INDEX idx_uuid (uuid)" +
                             ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4"
-            );
-            ps.executeUpdate();
-            ps.close();
+            )) {
+                ps.executeUpdate();
+            }
 
-            ps = connection.prepareStatement(
+            try (PreparedStatement ps = connection.prepareStatement(
                     "CREATE TABLE IF NOT EXISTS rocket_clicks (" +
                             "uuid VARCHAR(36) PRIMARY KEY, " +
                             "clicks INT DEFAULT 0, " +
                             "last_click BIGINT, " +
                             "total_coins INT DEFAULT 0" +
                             ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4"
-            );
-            ps.executeUpdate();
-            ps.close();
+            )) {
+                ps.executeUpdate();
+            }
 
-            ps = connection.prepareStatement(
+            try (PreparedStatement ps = connection.prepareStatement(
                     "CREATE TABLE IF NOT EXISTS player_stats (" +
                             "uuid VARCHAR(36) PRIMARY KEY, " +
                             "total_jumps INT DEFAULT 0, " +
@@ -198,9 +198,9 @@ public class MySQL {
                             "warps_used INT DEFAULT 0, " +
                             "updated_at BIGINT" +
                             ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4"
-            );
-            ps.executeUpdate();
-            ps.close();
+            )) {
+                ps.executeUpdate();
+            }
 
             plugin.getLogger().info("§aLobbyPlugin Tabellen erfolgreich erstellt!");
 
@@ -216,10 +216,8 @@ public class MySQL {
             return;
         }
 
-        try {
-            PreparedStatement ps = connection.prepareStatement(qry);
+        try (PreparedStatement ps = connection.prepareStatement(qry)) {
             ps.executeUpdate();
-            ps.close();
         } catch (SQLException e) {
             plugin.getLogger().severe("Fehler beim Ausführen von Query: " + qry);
             e.printStackTrace();
