@@ -6,7 +6,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
-
 public class TabManager {
 
     private final Main plugin;
@@ -169,7 +168,7 @@ public class TabManager {
                     updateTabList(player);
                 }
             }
-        }, 20L, 20L * 5); // Alle 5 Sekunden
+        }, 20L, 20L * 5);
     }
 
     public void removePlayer(Player player) {

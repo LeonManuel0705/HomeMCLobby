@@ -48,13 +48,13 @@ public class PetManager implements Listener {
 
         switch (petType.toLowerCase()) {
             case "dog":
-                item.setDurability((short) 95); // Wolf
+                item.setDurability((short) 95);
                 meta.setDisplayName("§6§lHund");
                 meta.setLore(Arrays.asList("", "§7Treuer Begleiter!", "§7Kosten§8: §6250 Coins", "", "§a▸ Klicke zum Kaufen/Spawnen"));
                 break;
 
             case "cat":
-                item.setDurability((short) 98); // Ocelot
+                item.setDurability((short) 98);
                 meta.setDisplayName("§e§lKatze");
                 meta.setLore(Arrays.asList("", "§7Niedliche Katze!", "§7Kosten§8: §6200 Coins", "", "§a▸ Klicke zum Kaufen/Spawnen"));
                 break;
@@ -299,7 +299,6 @@ public class PetManager implements Listener {
             pet.setCustomName("§e" + petName);
             pet.setMetadata("homemc.pet", new FixedMetadataValue(plugin, player.getUniqueId().toString()));
 
-            // AI entfernen für bessere Performance
             if (pet instanceof LivingEntity) {
                 LivingEntity living = (LivingEntity) pet;
                 living.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 1, true, false));

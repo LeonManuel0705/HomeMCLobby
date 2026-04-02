@@ -86,7 +86,6 @@ public class ScoreboardManager {
             setScore(obj, "§bplay.homemc.org", line--);
     }
 
-
     private void setScore(Objective obj, String text, int score) {
         String uniqueText = text;
         if (text.trim().isEmpty()) {

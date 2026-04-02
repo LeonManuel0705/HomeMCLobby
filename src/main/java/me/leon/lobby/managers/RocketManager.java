@@ -68,7 +68,7 @@ public class RocketManager {
                         if (rs.next()) {
                             long lastClick = rs.getLong("clicked_at");
                             long now = System.currentTimeMillis();
-                            long cooldown = 24 * 60 * 60 * 1000; // 24 Stunden
+                            long cooldown = 24 * 60 * 60 * 1000;
 
                             if (now - lastClick < cooldown) {
                                 long remaining = (cooldown - (now - lastClick)) / 1000 / 60 / 60;
