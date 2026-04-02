@@ -87,7 +87,6 @@ public class ShopManager {
     public Map<String, Integer> getShopItems() {
         Map<String, Integer> items = new LinkedHashMap<>();
 
-        // Gadgets
         items.put("gadget_hearts", 100);
         items.put("gadget_flames", 150);
         items.put("gadget_magic", 200);

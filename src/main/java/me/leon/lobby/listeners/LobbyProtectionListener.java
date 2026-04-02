@@ -97,7 +97,6 @@ public class LobbyProtectionListener implements Listener {
             return;
         }
 
-        // Hut-Drop Protection
         ItemStack item = event.getItemDrop().getItemStack();
         if (plugin.getHatManager().hasHat(player.getUniqueId())) {
             ItemStack helmet = player.getInventory().getHelmet();

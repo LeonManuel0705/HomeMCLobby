@@ -103,12 +103,10 @@ public class Main extends JavaPlugin implements PluginMessageListener {
             }
         }
 
-        // Mob-Cleaner Task
         Bukkit.getScheduler().runTaskTimer(this, () -> {
             for (World world : Bukkit.getWorlds()) {
                 if (isLobbyWorld(world.getName())) {
                     for (Entity entity : world.getEntities()) {
-                        // Pets nicht entfernen!
                         if (entity.hasMetadata("homemc.pet")) {
                             continue;
                         }
@@ -119,7 +117,7 @@ public class Main extends JavaPlugin implements PluginMessageListener {
                     }
                 }
             }
-        }, 20L * 5, 20L * 5); // Alle 5 Sekunden
+        }, 20L * 5, 20L * 5);
 
         Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "=================================");
         Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "LobbySystem aktiviert!");
@@ -204,7 +202,6 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         return rocketManager;
     }
 
-    // NEUE Getter
     public PetManager getPetManager() {
         return petManager;
     }
