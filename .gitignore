@@ -1,3 +1,6 @@
 # Project exclude paths
 /out/
-/target/
+/target/.idea/
+target/
+*.iml
+.DS_Store
